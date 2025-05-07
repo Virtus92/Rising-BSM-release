@@ -1,0 +1,51 @@
+services:
+  # Database service
+  db:
+    image: postgres:13
+    container_name: rising-bsm-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-rising_bsm}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - rising-bsm-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  
+  # Next.js Frontend & API service (development mode)
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.dev
+    container_name: rising-bsm-app
+    env_file:
+      - ./app/.env
+    environment:
+      - NODE_ENV=development
+      - SEED_DATABASE=true
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:${DB_PORT:-5432}/${DB_DATABASE:-rising_bsm}?schema=public
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - rising-bsm-network
+
+networks:
+  rising-bsm-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

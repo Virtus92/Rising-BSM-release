@@ -1,0 +1,49 @@
+services:
+  # Database service
+  db:
+    image: postgres:13
+    container_name: rising-bsm-db-prod
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_DATABASE:-rising_bsm}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - rising-bsm-network-prod
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Frontend service (production mode)
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: rising-bsm-app-prod
+    env_file:
+      - ./app/.env.production
+    environment:
+      - NODE_ENV=production
+      # Override DATABASE_URL to ensure it uses the Docker network service name
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:${DB_PORT:-5432}/${DB_DATABASE:-rising_bsm}?schema=public
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rising-bsm-network-prod
+    restart: always
+
+networks:
+  rising-bsm-network-prod:
+    driver: bridge
+
+volumes:
+  postgres_data_prod:
