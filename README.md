@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-  <strong>AI-Powered Business Service Management</strong><br>
-  Open source platform for AI assistants handling requests, customer and appointment management
+  <strong>Business Service Management Platform</strong><br>
+  Open source platform for handling requests, customer and appointment management
 </p>
 
 <p align="center">
@@ -20,13 +20,12 @@
 
 ## Overview
 
-Rising BSM is an open-source platform for developing AI-powered business service management solutions. It provides comprehensive functionality for customer relationship management, appointment scheduling, request handling, and business operations, all integrated with AI capabilities to automate routine tasks.
+Rising BSM is an open-source platform for business service management. Currently in early development (V0.6), it provides functionality for customer relationship management, appointment scheduling, request handling, and business operations.
 
 The platform is built on modern technologies including Next.js 15, Prisma ORM, TypeScript, and Tailwind CSS, following industry best practices for scalability, maintainability, and performance.
 
 ## Features
 
-- **🤖 AI-Powered Assistants**: Optimized for advanced AI to handle customer queries and automate responses
 - **👥 Customer Management**: Comprehensive CRM with customer profiles, history, and segmentation
 - **📅 Appointment Scheduling**: Flexible appointment system with calendar integrations and automated reminders
 - **📊 Analytics & Reporting**: Real-time dashboards and insights to track business performance
@@ -34,6 +33,10 @@ The platform is built on modern technologies including Next.js 15, Prisma ORM, T
 - **🔐 Role-Based Access Control**: Granular permissions system for team collaboration
 - **📱 Responsive Design**: Works seamlessly across desktop, tablet, and mobile devices
 - **🌙 Dark Mode Support**: Full light/dark mode theming
+
+## Development Status
+
+Rising-BSM is currently in early development (Version 0.6). While core functionality is implemented, expect frequent changes and improvements. Not recommended for production use yet.
 
 ## Getting Started
 
@@ -170,7 +173,7 @@ npm run format
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the RISING-BSM CUSTOM LICENSE - see the [LICENSE](./LICENSE) file for details.
 
 ## Acknowledgements
 
