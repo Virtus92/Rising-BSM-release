@@ -165,7 +165,7 @@ export class NotificationRepository extends BaseRepository<Notification> impleme
       const results = await model.findMany(queryOptions);
       
       // Map to domain entities
-      return results.map(entity => this.mapToDomainEntity(entity));
+      return results.map((entity:any) => this.mapToDomainEntity(entity));
     } catch (error) {
       this.logger.error('Error in NotificationRepository.findByUser', { error, userId, unreadOnly, limit });
       throw this.handleError(error);
@@ -223,7 +223,7 @@ export class NotificationRepository extends BaseRepository<Notification> impleme
       const totalPages = Math.ceil(total / limit) || 1;
       
       // Map to domain entities
-      const data = results.map(entity => this.mapToDomainEntity(entity));
+      const data = results.map((entity:any) => this.mapToDomainEntity(entity));
       
       return {
         data,
@@ -837,7 +837,7 @@ export class NotificationRepository extends BaseRepository<Notification> impleme
       });
       
       // Map to domain entities
-      return results.map(entity => this.mapToDomainEntity(entity));
+      return results.map((entity: any) => this.mapToDomainEntity(entity));
     } catch (error) {
       this.logger.error('Error in NotificationRepository.search', { error, criteria });
       throw this.handleError(error);

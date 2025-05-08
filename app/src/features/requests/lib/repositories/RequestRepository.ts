@@ -157,7 +157,7 @@ export class RequestRepository extends PrismaRepository<ContactRequest> implemen
         orderBy: { createdAt: 'desc' }
       });
       
-      return requestNotes.map(note => new RequestNote({
+      return requestNotes.map((note:any) => new RequestNote({
         id: note.id,
         requestId: note.requestId,
         userId: note.userId,
@@ -699,7 +699,7 @@ export class RequestRepository extends PrismaRepository<ContactRequest> implemen
       ]);
       
       // Map to domain entities
-      const data = requests.map(request => this.mapToDomainEntity(request));
+      const data = requests.map((request :Request) => this.mapToDomainEntity(request));
       
       // Calculate pagination information
       const totalPages = Math.ceil(total / limit);
@@ -843,7 +843,7 @@ export class RequestRepository extends PrismaRepository<ContactRequest> implemen
       });
       
       // Map to domain entities
-      return requests.map(request => this.mapToDomainEntity(request));
+      return requests.map((request :Request) => this.mapToDomainEntity(request));
     } catch (error) {
       this.logger.error('Error in RequestRepository.find', { 
         error: error instanceof Error ? error.message : String(error),
@@ -889,7 +889,7 @@ export class RequestRepository extends PrismaRepository<ContactRequest> implemen
         orderBy: { createdAt: 'desc' }
       });
       
-      return notes.map(note => new RequestNote({
+      return notes.map((note:any) => new RequestNote({
         id: note.id,
         requestId: note.requestId,
         userId: note.userId,

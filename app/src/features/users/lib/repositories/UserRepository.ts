@@ -99,7 +99,7 @@ export class UserRepository extends PrismaRepository<User> implements IUserRepos
       ]);
       
       // Map to domain entities
-      const data = users.map(user => this.mapToDomainEntity(user));
+      const data = users.map((user:any) => this.mapToDomainEntity(user));
       
       // Calculate pagination information
       const totalPages = Math.ceil(total / limit);
@@ -235,7 +235,7 @@ export class UserRepository extends PrismaRepository<User> implements IUserRepos
       ]);
       
       // Map to domain entities
-      const data = users.map(user => this.mapToDomainEntity(user));
+      const data = users.map((user:any) => this.mapToDomainEntity(user));
       
       // Calculate pagination information
       const totalPages = Math.ceil(total / limit);
@@ -282,7 +282,7 @@ export class UserRepository extends PrismaRepository<User> implements IUserRepos
       });
       
       // Map to domain entities
-      return users.map(user => this.mapToDomainEntity(user));
+      return users.map((user:any) => this.mapToDomainEntity(user));
     } catch (error) {
       this.logger.error('Error in UserRepository.searchUsers', { error, searchText });
       throw this.handleError(error);
@@ -428,7 +428,7 @@ export class UserRepository extends PrismaRepository<User> implements IUserRepos
       this.logger.debug(`Hard deleting user with ID: ${userId}`);
       
       // Execute a transaction to ensure data integrity
-      await this.prisma.$transaction(async (tx) => {
+      await this.prisma.$transaction(async (tx:any) => {
         // First delete dependent entities
         await tx.userActivity.deleteMany({
           where: { userId }

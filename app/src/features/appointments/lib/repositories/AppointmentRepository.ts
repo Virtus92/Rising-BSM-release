@@ -271,7 +271,7 @@ export class AppointmentRepository extends PrismaRepository<Appointment, number>
       });
       
       return Promise.all(
-        appointments.map(async (appointment) => {
+        appointments.map(async (appointment: Appointment) => {
           const appointmentEntity = this.mapToDomainEntity(appointment);
           
           // Load customer data if available
@@ -316,7 +316,7 @@ export class AppointmentRepository extends PrismaRepository<Appointment, number>
       });
       
       return Promise.all(
-        appointments.map(async (appointment) => {
+        appointments.map(async (appointment: Appointment) => {
           const appointmentEntity = this.mapToDomainEntity(appointment);
           
           // Load customer data if available
@@ -393,7 +393,7 @@ export class AppointmentRepository extends PrismaRepository<Appointment, number>
       });
       
       return Promise.all(
-        appointments.map(async (appointment) => {
+        appointments.map(async (appointment: Appointment) => {
           const appointmentEntity = this.mapToDomainEntity(appointment);
           
           // Load customer data if available
@@ -527,7 +527,7 @@ export class AppointmentRepository extends PrismaRepository<Appointment, number>
       
       // Load data for each appointment
       const data = await Promise.all(
-        appointments.map(async (appointment) => {
+        appointments.map(async (appointment: Appointment) => {
           const appointmentEntity = this.mapToDomainEntity(appointment);
           
           // Load customer data if available
@@ -961,7 +961,7 @@ export class AppointmentRepository extends PrismaRepository<Appointment, number>
       
       // Map to domain entities
       return Promise.all(
-        appointments.map(async (appointment) => {
+        appointments.map(async (appointment: Appointment) => {
           const appointmentEntity = this.mapToDomainEntity(appointment);
           
           // Load customer data if available

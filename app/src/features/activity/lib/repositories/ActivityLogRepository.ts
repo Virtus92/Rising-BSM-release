@@ -6,6 +6,7 @@ import { EntityType } from '@/domain/enums/EntityTypes';
 import { ILoggingService } from '@/core/logging/ILoggingService';
 import { IErrorHandler } from '@/core/errors/';
 import { PaginationResult } from '@/domain/repositories/IBaseRepository';
+import { LogActionDto } from '@/domain';
 
 /**
  * Implementation of the ActivityLogRepository
@@ -119,7 +120,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
         orderBy: { timestamp: 'desc' } // Fixed field name
       });
       
-      return logs.map(log => this.mapToDomainEntity(log));
+      return logs.map((log: any) => this.mapToDomainEntity(log));
     } catch (error) {
       this.logger.error('Error in ActivityLogRepository.findByEntity', { error, entityType, entityId });
       throw this.handleError(error);
@@ -141,7 +142,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
         take: limit
       });
       
-      return logs.map(log => this.mapToDomainEntity(log));
+      return logs.map((log: any) => this.mapToDomainEntity(log));
     } catch (error) {
       this.logger.error('Error in ActivityLogRepository.findByUser', { error, userId, limit });
       throw this.handleError(error);
@@ -163,7 +164,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
         take: limit
       });
       
-      return logs.map(log => this.mapToDomainEntity(log));
+      return logs.map((log: any) => this.mapToDomainEntity(log));
     } catch (error) {
       this.logger.error('Error in ActivityLogRepository.findByAction', { error, action, limit });
       throw this.handleError(error);
@@ -183,7 +184,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
         take: limit
       });
       
-      return logs.map(log => this.mapToDomainEntity(log));
+      return logs.map((log: any) => this.mapToDomainEntity(log));
     } catch (error) {
       this.logger.error('Error in ActivityLogRepository.findLatest', { error, limit });
       throw this.handleError(error);
@@ -281,7 +282,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
       
       const result = await this.prisma.userActivity.deleteMany({
         where: {
-          id: { in: logs.map(log => log.id) }
+          id: { in: logs.map((log: { id: number }) => log.id) }
         }
       });
       
@@ -406,7 +407,7 @@ export class ActivityLogRepository extends PrismaRepository<ActivityLog, number>
       ]);
       
       // Map to domain entities
-      const data = logs.map(log => {
+      const data = logs.map((log: any) => {
         // Add username if available
         const logWithUserName = {
           ...log,

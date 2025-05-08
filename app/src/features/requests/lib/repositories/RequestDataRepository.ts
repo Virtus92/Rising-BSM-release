@@ -3,6 +3,7 @@ import { RequestData } from '@/domain/entities/RequestData';
 import { RequestDataHistory } from '@/domain/entities/RequestDataHistory';
 import { IRequestDataRepository } from '@/domain/repositories/IRequestDataRepository';
 import { PaginationResult, QueryOptions } from '@/domain/repositories/IBaseRepository';
+import { Prisma } from '@prisma/client';
 
 /**
  * Repository implementation for RequestData entities
@@ -414,9 +415,9 @@ export class RequestDataRepository extends PrismaRepository<RequestData> impleme
    * @param callback - Transaction callback
    * @returns Transaction result
    */
-  async transaction<R>(callback: (repo?: IRequestDataRepository) => Promise<R>): Promise<R> {
+  async transaction<R>(callback: (repo: this) => Promise<R>): Promise<R> {
     try {
-      return await this.prisma.$transaction(async (tx) => {
+      return await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
         try {
           // Create a new repository with the transaction client
           const repoWithTx = new RequestDataRepository(
@@ -425,8 +426,8 @@ export class RequestDataRepository extends PrismaRepository<RequestData> impleme
             this.errorHandler
           );
           
-          // Execute the callback with the transaction repository
-          return await callback();
+          // Execute the callback with the transaction repository, use type assertion
+          return await callback(repoWithTx as unknown as this);
         } catch (error) {
           throw error;
         }
@@ -456,7 +457,7 @@ export class RequestDataRepository extends PrismaRepository<RequestData> impleme
         orderBy: { order: 'asc' }
       });
       
-      return results.map(result => this.mapToDomainEntity(result));
+      return results.map((result: any) => this.mapToDomainEntity(result));
     } catch (error) {
       this.logger.error(`Error in ${this.constructor.name}.findByRequestId`, { 
         error: error instanceof Error ? error.message : String(error),

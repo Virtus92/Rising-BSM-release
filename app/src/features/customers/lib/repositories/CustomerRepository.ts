@@ -92,7 +92,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
       });
       
       // Map to domain entities
-      return customers.map(customer => this.mapToDomainEntity(customer));
+      return customers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.searchCustomers', { error, term });
       throw this.handleError(error);
@@ -139,7 +139,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
       });
       
       // Map to domain entities
-      return similarCustomers.map(customer => this.mapToDomainEntity(customer));
+      return similarCustomers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.findSimilarCustomers', { error, customerId });
       throw this.handleError(error);
@@ -242,7 +242,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
       ]);
       
       // Map to domain entities
-      const data = customers.map(customer => this.mapToDomainEntity(customer));
+      const data = customers.map((customer: Customer) => this.mapToDomainEntity(customer));
       
       // Calculate pagination information
       const totalPages = Math.ceil(total / limit);
@@ -384,7 +384,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
         orderBy: { updatedAt: 'desc' }
       });
       
-      return customers.map(customer => this.mapToDomainEntity(customer));
+      return customers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.findByType', { error, type });
       throw this.handleError(error);
@@ -406,7 +406,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
         orderBy: { updatedAt: 'desc' }
       });
       
-      return customers.map(customer => this.mapToDomainEntity(customer));
+      return customers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.findByStatus', { error, status });
       throw this.handleError(error);
@@ -429,7 +429,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
         orderBy: { updatedAt: 'desc' }
       });
       
-      return customers.map(customer => this.mapToDomainEntity(customer));
+      return customers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.findRecent', { error, limit });
       throw this.handleError(error);
@@ -483,7 +483,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
     userId?: number; 
     action: string; 
     details?: string; 
-  }): Promise<any> {
+  }): Promise<any | null> {
     try {
       this.logger.debug(`Creating customer log for customer ${data.customerId}: ${data.action}`);
       
@@ -592,7 +592,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
    * @param ormEntity - ORM entity
    * @returns Domain entity
    */
-  protected mapToDomainEntity(ormEntity: any): Customer {
+  protected mapToDomainEntity(ormEntity: Customer): Customer {
     if (!ormEntity) {
       return null as any;
     }
@@ -625,7 +625,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
    * @param domainEntity - Domain entity
    * @returns ORM entity
    */
-  protected mapToORMEntity(domainEntity: Partial<Customer>): any {
+  protected mapToORMEntity(domainEntity: Partial<Customer>): Customer {
     // Remove undefined properties
     const result: Record<string, any> = {};
     
@@ -642,7 +642,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
     
     result.updatedAt = new Date();
     
-    return result;
+    return result as Customer;
   }
 
   /**
@@ -663,7 +663,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
       });
       
       // Map to domain entities
-      return customers.map(customer => this.mapToDomainEntity(customer));
+      return customers.map((customer: Customer) => this.mapToDomainEntity(customer));
     } catch (error) {
       this.logger.error('Error in CustomerRepository.find', { 
         error: error instanceof Error ? error.message : String(error),
@@ -765,7 +765,7 @@ export class CustomerRepository extends PrismaRepository<Customer> implements IC
         orderBy: { createdAt: 'desc' }
       });
       
-      return notes.map(note => ({
+      return notes.map((note: any) => ({
         id: note.id,
         text: note.details,
         createdAt: note.createdAt,
